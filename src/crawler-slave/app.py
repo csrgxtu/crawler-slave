@@ -12,16 +12,21 @@ class Crawler(webapp2.RequestHandler):
         url = self.request.get('url')
 
         data = {'status_code': None, 'url': url, 'err': False, 'msg': None, 'data': None}
-        
+
         if not validators.url(url):
             data['err'] = True
             data['msg'] = 'invalid url'
             self.response.write(json.dumps(data))
             return
 
-        result = urlfetch.fetch(url)
-        data['status_code'] = result.status_code
-        data['data'] = result.content
+        try:
+            result = urlfetch.fetch(url)
+            data['status_code'] = result.status_code
+            data['data'] = result.content
+        except:
+            data['err'] = True
+            data['msg'] = 'GAE Download Error'
+
         self.response.write(json.dumps(data))
 
 app = webapp2.WSGIApplication([
