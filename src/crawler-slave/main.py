@@ -10,9 +10,9 @@ from google.appengine.api import urlfetch
 import validators
 
 @app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+def index():
+    data = {'err': False, 'msg': 'crawler-slave'}
+    return jsonify(data)
 
 @app.route('/url')
 def get_data_by_url():
