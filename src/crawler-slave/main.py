@@ -27,14 +27,14 @@ def get_data_by_url():
         data['status_code'] = 404
         return jsonify(data)
 
-    try:
-        result = urlfetch.fetch(url)
-        data['status_code'] = result.status_code
-        data['data'] = result.content.decode(chardet.detect(result.content)['encoding'], 'ignore').encode('utf-8')
-    except:
-        data['err'] = True
-        data['msg'] = 'GAE Download Error'
-        data['status_code'] = 500
+    # try:
+    result = urlfetch.fetch(url)
+    data['status_code'] = result.status_code
+    data['data'] = result.content.decode(chardet.detect(result.content)['encoding'], 'ignore').encode('utf-8')
+    # except:
+    #     data['err'] = True
+    #     data['msg'] = 'GAE Download Error'
+    #     data['status_code'] = 500
 
     return jsonify(data)
 

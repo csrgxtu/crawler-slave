@@ -9,15 +9,17 @@
 from Download import Download
 from util import loadIsbns
 import json
+from itertools import cycle
 
-slaveAPI = 'http://csrgxtua-01.appspot.com/url?url='
-baseUrl = slaveAPI + 'http://book.douban.com/isbn/'
 isbns = loadIsbns('isbns.txt')
+appids = loadIsbns('appids')
+appidsCycle = cycle(appids)
+doubanApi = 'http://book.douban.com/isbn/'
 
 count = 0
 for isbn in isbns:
-    url = baseUrl + isbn
-    print 'DEBUG: ', url
+    url = 'http://' + appidsCycle.next() + '.appspot.com/url?url=' + doubanApi + isbn
+    print url
     d = Download(url)
     if d.doRequest():
         print isbn, 'network error'
