@@ -13,11 +13,11 @@ from itertools import cycle
 import json
 from Download import Download
 
-def worker(appids, isbns):
-    appidsCycle = cycle(appids)
+def worker(appids, isbns, appidsCycle):
+    # appidsCycle = cycle(appids)
 
     for isbn in isbns:
-        url = 'http://' + str(appidsCycle.next()) + '.appspot.com/url?url=' + 'http://book.douban.com/isbn/' + str(isbn)
+        url = 'http://' + appidsCycle.next() + '.appspot.com/url?url=' + 'http://book.douban.com/isbn/' + str(isbn)
         print 'DEBUG: ', url
 
         d = Download(url)
@@ -33,9 +33,10 @@ def worker(appids, isbns):
 if __name__ == '__main__':
     isbns = loadIsbns('isbns.txt')
     appids = loadIsbns('appids')
+    appidsCycle = cycle(appids)
 
     jobs = []
     for i in range(10):
-        p = multiprocessing.Process(target=worker,args = (appids[(800 * i):(i * 800 + 800)], isbns))
+        p = multiprocessing.Process(target=worker,args = (appids[(800 * i):(i * 800 + 800)], isbns, appidsCycle))
         jobs.append(p)
         p.start()
