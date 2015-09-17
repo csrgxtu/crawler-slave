@@ -6,6 +6,7 @@ app = Flask(__name__)
 from google.appengine.api import urlfetch
 from google.appengine.api import app_identity
 import validators
+import chardet
 
 @app.route('/')
 def index():
@@ -29,7 +30,7 @@ def get_data_by_url():
     try:
         result = urlfetch.fetch(url)
         data['status_code'] = result.status_code
-        data['data'] = result.content
+        data['data'] = result.content.decode(chardet.detect(result.content)['encoding'], 'ignore').encode('utf-8')
     except:
         data['err'] = True
         data['msg'] = 'GAE Download Error'
