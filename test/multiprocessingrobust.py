@@ -17,7 +17,7 @@ def worker(appids, isbns):
     appidsCycle = cycle(appids)
 
     for isbn in isbns:
-        url = 'http://' + appidsCycle.next() + '.appspot.com/url?url=' + 'http://book.douban.com/isbn/' + isbn
+        url = 'http://' + str(appidsCycle.next()) + '.appspot.com/url?url=' + 'http://book.douban.com/isbn/' + str(isbn)
         print 'DEBUG: ', url
 
         d = Download(url)
