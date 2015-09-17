@@ -10,19 +10,21 @@ from Download import Download
 from util import loadIsbns
 import json
 
-baseUrl = 'http://book.douban.com/isbn/'
+slaveAPI = 'http://csrgxtua-01.appspot.com/url?url='
+baseUrl = slaveAPI + 'http://book.douban.com/isbn/'
 isbns = loadIsbns('isbns.txt')
 
 count = 0
 for isbn in isbns:
     url = baseUrl + isbn
+    print 'DEBUG: ', url
     d = Download(url)
     if d.doRequest():
         print isbn, 'network error'
         continue
 
     j = json.loads(d.getSOURCE())
-    if j['status_code'] eq 200:
+    if j['status_code'] == 200:
         count = count + 1
 
     print isbn, j['status_code']
