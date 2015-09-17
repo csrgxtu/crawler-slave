@@ -18,7 +18,7 @@ def worker(appids, isbns, appidsCycle):
 
     for isbn in isbns:
         url = 'http://' + appidsCycle.next() + '.appspot.com/url?url=' + 'http://book.douban.com/isbn/' + str(isbn)
-        print 'DEBUG: ', url
+        # print 'DEBUG: ', url
 
         d = Download(url)
         if d.doRequest():
@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
     jobs = []
     for i in range(10):
-        p = multiprocessing.Process(target=worker,args = (appids[(800 * i):(i * 800 + 800)], isbns, appidsCycle))
+        # print len(appids)
+        p = multiprocessing.Process(target=worker,args = (appids, isbns[(800 * i):(i * 800 + 800)], appidsCycle))
         jobs.append(p)
         p.start()
